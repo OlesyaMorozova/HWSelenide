@@ -1,5 +1,6 @@
 package ru.netology;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
@@ -30,8 +31,9 @@ public class CardDeliveryTest {
         form.$("[data-test-id=name] input").setValue("Морозова Олеся");
         form.$("[data-test-id=phone] input").setValue("+79275555555");
         form.$("[data-test-id=agreement]").click();
-        form.$(("button")).click();
-        $(withText("Успешно!")).shouldBe(exist);
-        $ ("h2").shouldBe(exist, Duration.ofSeconds(15));
+        form.$(("button.button")).click();
+        $(".notification__content")
+                .shouldBe(Condition.visible, Duration.ofSeconds(15))
+                .shouldHave(Condition.text("Встреча успешно забронирована на " + text));
     }
 }
